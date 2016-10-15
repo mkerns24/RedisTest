@@ -7,7 +7,7 @@
 
 Followed http://redis.io/topics/quickstart, but make test didn't work under Installing Redis.
 Problem was using more than one cpu according to http://serverfault.com/questions/747476/redis-installation-make-test-errors.
-I followed the stack overflow response and "taskset -c 20 make test".
+I followed the stack overflow response and ran "taskset -c 1 make test".
 Tests passed, Installation complete.
 
 ### Trying out Redis real quick
