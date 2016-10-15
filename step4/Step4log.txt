@@ -91,6 +91,46 @@ Trying out Sets
 1) "gurney"
 2) "duncan"
 
+Trying out Sorted Sets
+
+127.0.0.1:6379> ZADD friends:leto 1000 ghanima
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379> ZADD friends:leto 1000 ghanima
+(integer) 1
+127.0.0.1:6379> ZADD friends:leto 994 duncan
+(integer) 1
+127.0.0.1:6379> ZADD friends:leto 2 farad'n
+Invalid argument(s)
+127.0.0.1:6379> ZADD friends:leto 2 faradn
+(integer) 1
+127.0.0.1:6379> ZRANGEBYSCORE friends:leto 500 1000 
+1) "duncan"
+2) "ghanima"
+127.0.0.1:6379> ZRANGE friends:leto 0 -1 WITHSCORES
+1) "faradn"
+2) "2"
+3) "duncan"
+4) "994"
+5) "ghanima"
+6) "1000"
+127.0.0.1:6379> ZINCRBY friends:leto 121 faradn
+"123"
+127.0.0.1:6379> ZRANGE friends:leto 0 4 WITHSCORES
+1) "faradn"
+2) "123"
+3) "duncan"
+4) "994"
+5) "ghanima"
+6) "1000"
+127.0.0.1:6379> ZRANGE friends:leto 0 1 WITHSCORES
+1) "faradn"
+2) "123"
+3) "duncan"
+4) "994"
+127.0.0.1:6379> ZSCORE friends:leto faradn
+"123"
 
 
 

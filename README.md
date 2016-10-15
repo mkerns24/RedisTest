@@ -132,4 +132,77 @@ SMEMBERS group1
 -elementA, elementB
 ```
 
+#### SDIFF
+
+Sdiff is really weird. Its like I got group1 with elementA and elementB and then im like whats different about it than group2 which has element B and elementC. Then i see that Oh Group1 has elementA, but both groups have elementB. So then the answer is elementA
+
+```
+// group1{elementA.elementB} group2{elementB,elementC}
+SDIFF group1 group2
+-elementA
+SDIFF group2 group1
+-elementC
+```
+
+#### Sorted Sets
+
+Seems like how all the set stuff started with S----, all the sorted set stuff starts like Z---.
+
+#### ZADD
+
+Adds something into a sorted set with a specific value associated with it.
+
+```
+ZADD friends:leto 1000 ghanima
+```
+
+#### ZSCORE
+
+Tells you the value associated with a specific key.
+
+```
+ZSCORE friends:leto ghanima
+-"1000"
+```
+
+#### ZRANGE
+
+This one lists out the elements of the set based on their indices
+
+```
+ZRANGE friends:leto 0 -1 WITHSCORES
+-1) "faradn"
+-2) "2"
+-3) "duncan"
+-4) "994"
+-5) "ghanima"
+-6) "1000"
+```
+
+"0 -1" means index value 0 to index value -1, which means all elements.
+Not sure if bounds are inclusive/exclusive.
+
+#### ZRANGEBYSCORE
+
+This one lists out the elements of the set based on their values
+
+```
+ZRANGEBYSCORE friends:leto 500 1000
+-1) "duncan"
+-2) "ghanima"
+```
+
+"500 1000" means values held by the elements between 500 and 1000.
+Not sure if bounds are inclusive/exclusive.
+
+#### ZINCRBY
+
+Increases the value of an existing element
+
+```
+// faradn holds the initial value of 2
+ZINCRBY friends:leto 121 faradn
+-"123"
+```
+
 
