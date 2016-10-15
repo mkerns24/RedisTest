@@ -66,5 +66,11 @@ It makes it sound like we could run that and it would work, but it doesn't. We n
 
 So if we have a "Key-Property-Value" type of situation its probably easier just to use HSET instead of SET.
 
+### Lists
+
+Yeah, I don't get this part. I don't really see how to run scripts without using something other than Redis.
+
+Will get back to this when we have some other server running.
+
 
 
