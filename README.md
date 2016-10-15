@@ -78,11 +78,10 @@ I didn't know Redis even had this functionality. We can make sets!
 
 SADD - So SADD is like Set-ADD, adds somethign to a set.
 
-'''
+```
 SADD test blah
 SADD test blah
-
-'''
+```
 
 SINTER - is like the interpolation of the two sets, So interpolation
 
