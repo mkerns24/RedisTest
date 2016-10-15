@@ -72,5 +72,20 @@ Yeah, I don't get this part. I don't really see how to run scripts without using
 
 Will get back to this when we have some other server running.
 
+### Sets 
+
+I didn't know Redis even had this functionality. We can make sets!
+
+SADD - So SADD is like Set-ADD, adds somethign to a set.
+
+'''
+SADD test blah
+SADD test blah
+
+'''
+
+SINTER - is like the interpolation of the two sets, So interpolation
+
+SUNION - is the union of the two sets
 
 

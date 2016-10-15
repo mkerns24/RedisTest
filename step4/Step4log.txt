@@ -1,3 +1,5 @@
+
+
 Trying out strings and Hashes
 
 127.0.0.1:6379> SET pages:about "about us"
@@ -49,6 +51,47 @@ Invalid argument(s)
 127.0.0.1:6379> FLUSHALL
 OK
 127.0.0.1:6379> exit
+
+
+Trying out Sets
+
+
+127.0.0.1:6379> SADD friends:leto ghanima
+(integer) 1
+127.0.0.1:6379> SADD friends:leto duncan
+(integer) 1
+127.0.0.1:6379> SADD friends:paul duncan
+(integer) 1
+127.0.0.1:6379> SADD friends:paul gurney
+(integer) 1
+127.0.0.1:6379> SINTER friends:leto friends:paul
+1) "duncan"
+127.0.0.1:6379> get friends:leto
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+127.0.0.1:6379> GET friends:leto
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+127.0.0.1:6379> SDIFF friends:leto friends:paul
+1) "ghanima"
+127.0.0.1:6379> SDIFF friends:paul friends:leto
+1) "gurney"
+127.0.0.1:6379> SUNION friends:leto friends:paul
+1) "ghanima"
+2) "gurney"
+3) "duncan"
+127.0.0.1:6379> SUNIONSTORE friends:all friends:leto friends:paul
+(integer) 3
+127.0.0.1:6379> SMEMBERS friends:all
+1) "ghanima"
+2) "gurney"
+3) "duncan"
+127.0.0.1:6379> SMEMBERS friends:leto
+1) "ghanima"
+2) "duncan"
+127.0.0.1:6379> SMEMBERS friends:paul
+1) "gurney"
+2) "duncan"
+
+
 
 
 
