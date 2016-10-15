@@ -12,10 +12,18 @@ Tests passed, Installation complete.
 
 ### Trying out Redis real quick
 
-cli-command line interface
+cli means command line interface
 
-I went in the src folder and started the server via redis-server.
-I opened up another terminal window and ran redis-cli to access the server I had just started in the previous terminal window.
+I went in the src folder and started the server via
+
+```
+$ ./redis-server
+```
+I opened up another terminal window and ran
+```
+$ redis-cli 
+```
+to access the server I had just started in the previous terminal window.
 
 I ran "set TestKey TestValue" to set the value of Testvalue to the key TestKey".
 
@@ -37,6 +45,13 @@ I ran "DEL TestKey" and deleted the key.
 Going through this http://openmymind.net/2011/11/8/Redis-Zero-To-Master-In-30-Minutes-Part-1/
 
 The commands I executed are under the step4 directory in the log.
+
+### Universal Helpful Commands
+
+FLUSHALL - Delete everything stored
+SHUTDOWN - turn off the server
+EXIT - leave the CLI
+
 
 ### Strings/Set/Get
 
@@ -205,4 +220,89 @@ ZINCRBY friends:leto 121 faradn
 -"123"
 ```
 
+## Step 5 - MAKING OUR OWN MODULE!!!!
 
+So first thing first, we can't actually make the module with the stable redis version we have.
+
+We need to use the unstable redis version to be able to load modules.
+
+### Part A - Getting that unstable redis version going
+
+I followed the same steps as stated in step3 on http://redis.io/topics/quickstart , but instead of downloading redis-stable with the wget. I just manually downloaded the unstable version here, http://redis.io/download .
+
+I did the whole make, make test.
+
+### Part B - Directory organization
+
+Make the directory like
+
+```
+Step4
+|- redis-unstable
+|- testmodule 
+```
+where the redis-unstable has the server we just unpacked and made, and testmodule is where we are going to make our module.
+
+
+### Part C - Making that module
+
+make a file in testmodule called module.c which has
+
+```
+#include "redismodule.h"
+/* ECHO <string> - Echo back a string sent from the client */
+int EchoCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
+  if (argc < 2) return RedisModule_WrongArity(ctx);
+  return RedisModule_ReplyWithString(ctx, argv[1]);
+}
+
+/* Registering the module */
+int RedisModule_OnLoad(RedisModuleCtx *ctx) {
+  if (RedisModule_Init(ctx, "example", 1, REDISMODULE_APIVER_1) == REDISMODULE_ERR) {
+    return REDISMODULE_ERR;
+  }
+  if (RedisModule_CreateCommand(ctx, "example.echo", EchoCommand, "readonly", 1,1,1) == REDISMODULE_ERR) {
+    return REDISMODULE_ERR;
+  }
+}
+```
+
+grab the needed header file from redis-unstable/src/
+
+```
+//from the testmodule directory
+$ cp ../redis-unstable/src/redismodule.h .
+```
+
+compile it all
+
+```
+$ gcc -fPIC -std=gnu99 -c -o module.o module.c
+$ ld -o module.so module.o -shared -Bsymbolic -lc
+```
+
+module.so has what we need now
+
+### Part D - Run the server with the module
+
+get to the srv folder for our redis-unstable
+
+Start the server with the module
+
+```
+$ ./redis-server --loadmodule ../../testmodule/module.so
+```
+
+Start the cli in another terminal window
+```
+$ ./redis-cli
+```
+
+Try it out the module with the cli
+
+```
+127.0.0.1:6379> example.echo test
+"test"
+```
+
+Success!
