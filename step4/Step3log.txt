@@ -1,0 +1,54 @@
+Trying out strings and Hashes
+
+127.0.0.1:6379> SET pages:about "about us"
+OK
+127.0.0.1:6379> GET pages:about
+"about us"
+127.0.0.1:6379> HSET goku power 9001
+(integer) 1
+127.0.0.1:6379> HGET goku power
+"9001"
+127.0.0.1:6379> DEL goku power
+(integer) 1
+127.0.0.1:6379> HGET goku power
+(nil)
+127.0.0.1:6379> HSET goku power 9001
+(integer) 1
+127.0.0.1:6379> GET goku
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+127.0.0.1:6379> DEL pages:about
+(integer) 1
+127.0.0.1:6379> DEL goku power
+(integer) 1
+127.0.0.1:6379> SET rpgUserId0001 { name: 'Sanket', hp: '100', mp '100' }
+Invalid argument(s)
+127.0.0.1:6379> SET rpgUserId0001 { name: 'Sanket', hp: 100, mp 100 }
+Invalid argument(s)
+127.0.0.1:6379> SET rpgUserId0001 {name: 'Sanket', hp: 100, mp 100}
+Invalid argument(s)
+127.0.0.1:6379> SET rpgUserId {name: 'Sanket', hp: 100, mp 100}
+Invalid argument(s)
+127.0.0.1:6379> SET rpgUserId {name: 'Sanket', hp: 100, mp: 100}
+Invalid argument(s)
+127.0.0.1:6379> SET rpguserid {name: 'Sanket', hp: 100, mp: 100}
+Invalid argument(s)
+127.0.0.1:6379> SET users:goku {race: 'sayan', power: 9001}
+Invalid argument(s)
+127.0.0.1:6379> HSET rpgUserID name 'Sanket'
+(integer) 1
+127.0.0.1:6379> HSET rpgUserID hp 100
+(integer) 1
+127.0.0.1:6379> HSET rpgUserID mhp 50
+(integer) 1
+127.0.0.1:6379> DEL HSET rpgUserID mhp
+(integer) 1
+127.0.0.1:6379> HGET rpguserID mhp
+(nil)
+127.0.0.1:6379> HSET rpgUserID mp 50
+(integer) 1
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379> exit
+
+
+
