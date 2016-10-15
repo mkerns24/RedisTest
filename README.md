@@ -76,15 +76,60 @@ Will get back to this when we have some other server running.
 
 I didn't know Redis even had this functionality. We can make sets!
 
+#### SADD
 SADD - So SADD is like Set-ADD, adds somethign to a set.
 
 ```
-SADD test blah
-SADD test blah
+SADD group1 elementA
+// group1{elementA}
+
+SADD group1 elementB
+// group1{elementA.elementB}
+
+SADD group2 elementB
+// group1{elementA.elementB} group2{elementB}
+
+SADD group2 elementC
+// group1{elementA.elementB} group2{elementB,elementC}
 ```
 
-SINTER - is like the interpolation of the two sets, So interpolation
+#### SINTER
+SINTER - is like the interpolation of the two sets
 
+```
+SINTER group1 group2
+// elementB
+```
+
+#### SUNION
 SUNION - is the union of the two sets
+
+```
+SUNION group1 group2
+// elementA elementB elementC
+```
+
+#### SBlahSTORE
+
+So there is a way to store the answers from the interpolation and the union of the sets.
+
+SUNIONSTORE stores into a set the answer for the SUNION
+Similarly SINTERSTORE stores into a set the answer for the SINTER
+
+```
+SUNIONSTORE uniongroup group1 group2
+// uniongroup{elementA, elementB, elementC}
+SINTERSTORE intergroup group1 group2
+// intergroup{elementB}
+```
+
+#### SMEMBERS
+
+Tells you the members of the group
+
+```
+SMEMBERS group1
+-elementA, elementB
+```
 
 
