@@ -280,12 +280,16 @@ compile it all
 $ gcc -fPIC -std=gnu99 -c -o module.o module.c
 $ ld -o module.so module.o -shared -Bsymbolic -lc
 ```
+for MAC OS X the ld command is
+```
+$ ld -o module.so module.o -bundle -undefined dynamic_lookup -lc
+```
 
 module.so has what we need now
 
 ### Part D - Run the server with the module
 
-get to the srv folder for our redis-unstable
+get to the src folder for our redis-unstable
 
 Start the server with the module
 
